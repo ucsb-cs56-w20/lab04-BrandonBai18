@@ -65,19 +65,31 @@ public class Rational {
     }
 
     public static Rational product(Rational a, Rational b) {
-        return new Rational(a.num * b.num, a.denom * b.denom);
+	return new Rational(a.num * b.num, a.denom * b.denom);
     }
 
     public static Rational sum(Rational a, Rational b) {
-        return new Rational(); // stub
+	int n1;
+	int n2;
+	n1 = a.getDenominator() * b.getNumerator() + a.getNumerator() * b.getDenominator();
+	n2 = a.getDenominator() * b.getDenominator();
+
+	//if (n1 >=0 && n2 < 0){
+	//    n1 = n1 * -1;
+	//    n2 = n2 * -1;
+	//}
+	Rational newone = new Rational(n1,n2);
+	return newone;
     }
 
     public static Rational difference(Rational a, Rational b) {
-        return new Rational(); // stub
+	Rational tR = new Rational(b.getNumerator()*(-1),b.getDenominator());
+	return sum(a, tR);
     }
 
     public static Rational quotient(Rational a, Rational b) {
-        return new Rational(); // stub
+	Rational newone = new Rational(a.num*b.denom,a.denom*b.num);
+        return newone;
     }
     /**
      * For testing getters.
@@ -91,4 +103,42 @@ public class Rational {
         System.out.println("r.getDenominator()=" + r.getDenominator());
     }
 
+    public static int lcm(int a,int b){
+	return (a*b)/gcd(a,b);
+    }
+
+    public Rational plus(Rational r){
+	int n1;
+	int n2;
+	n1 = this.denom * r.getNumerator() + this.num * r.getDenominator();
+	n2 = this.denom * r.getDenominator();
+	if (n1 >= 0 && n2 < 0){
+	    n1 = n1 * -1;
+	    n2 = n2 * -1;
+	}
+	Rational newone = new Rational(n1,n2);
+	return newone;
+    }
+
+    public Rational minus(Rational r){
+	Rational tR = new Rational(r.getNumerator()*(-1),r.getDenominator());
+	return plus(tR);
+    }
+
+    public Rational reciprocalOf(){
+	if(num ==0){
+	    throw new ArithmeticException();
+	}
+	Rational newone = new Rational(this.denom,this.num);
+	return newone;
+    }
+
+    public Rational dividedBy(Rational r){
+	Rational newone = new Rational(this.num*r.denom,this.denom*r.num);
+        return newone;
+    }
+    
 }
+
+
+
